@@ -16,10 +16,11 @@ bot.get_updates(fail_silently: true) do |message|
       when /Привіт/i
         greetings = ['бонжур', 'чао', 'привіт', 'намасте']
         reply.text = "#{greetings.sample.capitalize}, #{message.from.first_name}."
-      when /Вітаю/i
+      when /[Вітаю][Андрій][ips][qwerty]/i
         greetings = ['бонжур', 'чао', 'привіт', 'намасте']
         reply.text = "#{greetings.sample.capitalize}, #{message.from.first_name}."
-      when /Погода/i
+      when (/Погода/i )
+        reply.text = "Введіть місто у якому бажаєте подивитись погоду - #{get_weather("lviv")}."
         reply.text = "Погода - #{get_weather("lviv")}."
       when /Хуй/i
         reply.text = "Ти хуй, #{message.from.first_name}. Єдиний хуй це Андрій."
