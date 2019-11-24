@@ -2,6 +2,8 @@ require 'net/http'
 require 'telegram_bot'
 require_relative 'weather_get'
 
+Encoding::default_external = Encoding::UTF_8
+
 token = '848732811:AAGp-aa3mbiIrx0QsTz4l0XZe1OE4cia4Hg'
 
 bot = TelegramBot.new(token: token)
@@ -13,22 +15,25 @@ bot.get_updates(fail_silently: true) do |message|
     case command
       when /start/i
         reply.text = "Я привіт бот(поки)."
-      when /Привіт/i
-        greetings = ['бонжур', 'чао', 'привіт', 'намасте']
-        reply.text = "#{greetings.sample.capitalize}, #{message.from.first_name}."
-      when /[Вітаю][Андрій][ips][qwerty]/i
+      when /Привіт/i, /Вітаю/i
         greetings = ['бонжур', 'чао', 'привіт', 'намасте']
         reply.text = "#{greetings.sample.capitalize}, #{message.from.first_name}."
       when (/Погода/i )
-        reply.text = "Введіть місто у якому бажаєте подивитись погоду - #{get_weather("lviv")}."
-        reply.text = "Погода - #{get_weather("lviv")}."
+        reply.text = "Введіть місто у якому бажаєте подивитись погоду."
+        puts "@#{message.from.username}: #{message.text}"
+        commandW = message.get_command_for(bot)
+          message.reply do |reply|
+            while (commandW == true)
+              reply.text = "Погода - #{get_weather(commandW)}."
+            end
+          end
       when /Хуй/i
         reply.text = "Ти хуй, #{message.from.first_name}. Єдиний хуй це Андрій."
       when /Бувай/i
         bye = ['бувай', 'чао', 'папа']
         reply.text = "#{bye.sample.capitalize}, #{message.from.first_name}."
       else
-        reply.text = "Не розумію команду #{command.inspect}."
+        reply.text = ("Не розумію команду " + command.inspect + ".")
       end
     puts "sending #{reply.text.inspect} to @#{message.from.username}"
     reply.send_with(bot)
