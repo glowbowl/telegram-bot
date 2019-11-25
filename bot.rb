@@ -20,13 +20,18 @@ bot.get_updates(fail_silently: true) do |message|
         reply.text = "#{greetings.sample.capitalize}, #{message.from.first_name}."
       when (/Погода/i )
         reply.text = "Введіть місто у якому бажаєте подивитись погоду."
-        puts "@#{message.from.username}: #{message.text}"
-        commandW = message.get_command_for(bot)
-          message.reply do |reply|
-            while (commandW == true)
-              reply.text = "Погода - #{get_weather(commandW)}."
-            end
-          end
+        puts "sending #{reply.text.inspect} to @#{message.from.username}"
+        reply.send_with(bot)
+        bot.get_updates() do |messageW|
+          puts "@#{messageW.from.username}: #{messageW.text}"
+          commandW = messageW.get_command_for(bot)
+          replyW = messageW.reply
+          replyW.text = "Погода - #{get_weather(commandW)}."
+          puts "sending #{replyW.text.inspect} to @#{message.from.username}"
+          bot.send_message(replyW)
+          break
+        end
+        break
       when /Хуй/i
         reply.text = "Ти хуй, #{message.from.first_name}. Єдиний хуй це Андрій."
       when /Бувай/i
@@ -34,7 +39,7 @@ bot.get_updates(fail_silently: true) do |message|
         reply.text = "#{bye.sample.capitalize}, #{message.from.first_name}."
       else
         reply.text = ("Не розумію команду " + command.inspect + ".")
-      end
+    end
     puts "sending #{reply.text.inspect} to @#{message.from.username}"
     reply.send_with(bot)
   end
