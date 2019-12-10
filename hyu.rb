@@ -1,4 +1,4 @@
-#puts day = Time.at(1574546400).wday
+puts day = Time.at(1575384408).wday
 days = {0 => "Неділя",
 1 => "Понеділок",
 2 => "Вівторок",
@@ -7,4 +7,4 @@ days = {0 => "Неділя",
 5 => "П'ятниця",
 6 => "Субота"}
 
-puts "Це #{days[Time.now.wday]}"
+puts "Це #{days[Time.at(1575384408).wday]}"
