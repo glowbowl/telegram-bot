@@ -39,7 +39,22 @@ def get_weather(address)
 
   w_day_name = days[Time.at(weather["currently"]["time"]).wday]
 
-  answer = "Погода на #{w_day_name}\n#{address} - #{weather["currently"]["summary"]}\nТемпература - (#{weather["currently"]["temperature"]}℃)"
+  w_type = weather["currently"]["precipType"]
 
+  
+
+  case w_type
+    when /snow/
+      answer = "Погода на #{w_day_name}\n#{address} - #{weather["currently"]["summary"]}🌨☃️\nТемпература - (#{weather["currently"]["temperature"]}℃)"
+    when /rain/
+      answer = "Погода на #{w_day_name}\n#{address} - #{weather["currently"]["summary"]}🌧☔️\nТемпература - (#{weather["currently"]["temperature"]}℃)"
+    when /sleet/
+      answer = "Погода на #{w_day_name}\n#{address} - #{weather["currently"]["summary"]}⛈❄️☔️\nТемпература - (#{weather["currently"]["temperature"]}℃)"
+    else
+      answer = "Погода на #{w_day_name}\n#{address} - #{weather["currently"]["summary"]}🌤\nТемпература - (#{weather["currently"]["temperature"]}℃)"
+      puts w_type
+      puts latitude
+      puts longitude
+  end
   return answer
 end
