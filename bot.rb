@@ -4,7 +4,7 @@ require_relative 'weather_get'
 
 Encoding::default_external = Encoding::UTF_8
 
-token = '848732811:AAGp-aa3mbiIrx0QsTz4l0XZe1OE4cia4Hg'
+token = '*******************************'
 
 bot = TelegramBot.new(token: token)
 
